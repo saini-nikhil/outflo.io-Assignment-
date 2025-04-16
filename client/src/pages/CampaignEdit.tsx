@@ -4,10 +4,16 @@ import CampaignForm from '../components/CampaignForm';
 import { getCampaign, updateCampaign } from '../api';
 
 interface Campaign {
+  id: string;
   name: string;
   description: string;
-  // Add more fields as needed
+  subject: string;
+  content: string;
+  status: string;
+  leads: string[];
+  accountIDs: string[];
 }
+
 
 const CampaignEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();

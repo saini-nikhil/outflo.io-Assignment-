@@ -6,8 +6,14 @@ import { createCampaign } from '../api';
 interface FormData {
   name: string;
   description: string;
-  // Add more fields as needed based on your form
+  subject: string;
+  content: string;
+  status: string; // Add status
+  leads: string[]; // Add leads (array of strings)
+  accountIDs: string[]; // Add accountIDs (array of strings)
 }
+
+
 
 const CampaignCreate: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
@@ -21,6 +27,7 @@ const CampaignCreate: React.FC = () => {
       setError('Failed to create campaign. Please try again.');
       console.error(err);
     }
+    
   };
 
   return (
