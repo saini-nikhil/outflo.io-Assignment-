@@ -12,8 +12,16 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
+// CORS configuration
+const corsOptions = {
+  origin: ['https://outflo-io-assignment-oyxp.vercel.app', 'http://localhost:5173'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json()); 
 
 // Routes
