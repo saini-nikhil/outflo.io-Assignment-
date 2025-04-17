@@ -1,15 +1,15 @@
-import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
-import { getProfiles, scrapeProfiles, searchProfiles, Profile, ScrapeResponse } from '../api';
+import React, { useState, useEffect } from 'react';
+import { getProfiles, scrapeProfiles, searchProfiles } from '../api';
 import { Link } from 'react-router-dom';
 
-const ProfileSearch: React.FC = () => {
-  const [profiles, setProfiles] = useState<Profile[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [searchUrl, setSearchUrl] = useState<string>('');
-  const [scraping, setScraping] = useState<boolean>(false);
-  const [scrapingMessage, setScrapingMessage] = useState<string>('');
+const ProfileSearch = () => {
+  const [profiles, setProfiles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchUrl, setSearchUrl] = useState('');
+  const [scraping, setScraping] = useState(false);
+  const [scrapingMessage, setScrapingMessage] = useState('');
 
   const fetchProfiles = async () => {
     try {
@@ -24,7 +24,7 @@ const ProfileSearch: React.FC = () => {
     }
   };
 
-  const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
@@ -38,7 +38,7 @@ const ProfileSearch: React.FC = () => {
     }
   };
 
-  const handleScrape = async (e: FormEvent<HTMLFormElement>) => {
+  const handleScrape = async (e) => {
     e.preventDefault();
     if (!searchUrl) {
       setError('Please enter a LinkedIn search URL');
@@ -63,10 +63,10 @@ const ProfileSearch: React.FC = () => {
     fetchProfiles();
   }, []);
 
-  const getInitials = (name: string) => {
+  const getInitials = (name) => {
     return name
       .split(' ')
-      .map(word => word[0])
+      .map((word) => word[0])
       .join('')
       .toUpperCase()
       .slice(0, 2);
@@ -82,7 +82,7 @@ const ProfileSearch: React.FC = () => {
           <p className="text-lg text-gray-600 mb-8">
             Enter a LinkedIn search URL to scrape profiles.
           </p>
-          
+
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 flex items-center">
               <i className="fas fa-exclamation-circle mr-2"></i>
@@ -103,7 +103,7 @@ const ProfileSearch: React.FC = () => {
                 id="searchUrl"
                 className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none text-gray-600"
                 value={searchUrl}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchUrl(e.target.value)}
+                onChange={(e) => setSearchUrl(e.target.value)}
                 placeholder="https://www.linkedin.com/search/results/people/?keywords=..."
                 required
               />
@@ -142,7 +142,7 @@ const ProfileSearch: React.FC = () => {
                 type="text"
                 className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none text-gray-600"
                 value={searchQuery}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search by name, job title, company..."
               />
               <button
@@ -183,7 +183,7 @@ const ProfileSearch: React.FC = () => {
                           <p className="text-gray-600">{profile.jobTitle}</p>
                         </div>
                       </div>
-                      
+
                       <div className="space-y-2 mb-6 pt-4 border-t border-gray-100">
                         <div className="flex items-center text-gray-600">
                           <i className="fas fa-building w-5 mr-2 text-blue-500"></i>

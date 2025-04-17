@@ -4,10 +4,10 @@ import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import CampaignCreate from './pages/CampaignCreate';
 import CampaignEdit from './pages/CampaignEdit';
-import MessagePage from './pages/MessagePage';
-import ProfilesPage from './pages/ProfilesPage';
+import MessagePage from "./pages/MessagePage";
+import ProfilesPage from "./pages/ProfilesPage";
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <Router>
       <Layout>
@@ -23,4 +23,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default App; 

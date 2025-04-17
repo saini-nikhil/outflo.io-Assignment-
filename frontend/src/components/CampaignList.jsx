@@ -2,25 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getCampaigns, deleteCampaign, updateCampaign } from '../api';
 
-interface Campaign {
-  _id: string;
-  name: string;
-  description: string;
-  status: 'ACTIVE' | 'INACTIVE';
-  leads: string[];
-  accountIDs: string[];
-}
-
-const CampaignList: React.FC = () => {
-  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+const CampaignList = () => {
+  const [campaigns, setCampaigns] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchCampaigns = async () => {
     try {
       setLoading(true);
       const data = await getCampaigns();
-      setCampaigns(data as unknown as Campaign[]);
+      setCampaigns(data);
     } catch (err) {
       setError('Failed to load campaigns. Please try again.');
       console.error(err);
@@ -33,7 +24,7 @@ const CampaignList: React.FC = () => {
     fetchCampaigns();
   }, []);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this campaign?')) {
       try {
         await deleteCampaign(id);
@@ -45,10 +36,17 @@ const CampaignList: React.FC = () => {
     }
   };
 
-  const toggleStatus = async (campaign: Campaign) => {
+  const toggleStatus = async (campaign) => {
     try {
       const newStatus = campaign.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
-      await updateCampaign(campaign._id, { ...campaign, status: newStatus });
+      await updateCampaign(campaign._id, {
+        id: campaign._id,
+        name: campaign.name,
+        description: campaign.description,
+        status: newStatus,
+        leads: campaign.leads,
+        accountIDs: campaign.accountIDs
+      });
       fetchCampaigns();
     } catch (err) {
       setError('Failed to update campaign status. Please try again.');
@@ -139,17 +137,23 @@ const CampaignList: React.FC = () => {
                         <Link
                           to={`/campaigns/edit/${campaign._id}`}
                           className="text-blue-600 hover:text-blue-900"
+                          title="Edit campaign"
                         >
                           <i className="fas fa-edit"></i>
+                          <span className="sr-only">Edit campaign</span>
                         </Link>
                         <button
                           onClick={() => handleDelete(campaign._id)}
                           className="text-red-600 hover:text-red-900"
+                          title="Delete campaign"
                         >
                           <i className="fas fa-trash"></i>
+                          <span className="sr-only">Delete campaign</span>
                         </button>
                         <button
                           onClick={() => toggleStatus(campaign)}
+                          aria-label={`Toggle campaign status: currently ${campaign.status}`}
+                          title={`Toggle campaign status: currently ${campaign.status}`}
                           className={`relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
                             ${campaign.status === 'ACTIVE' ? 'bg-blue-600' : 'bg-gray-200'}`}
                         >
@@ -172,4 +176,4 @@ const CampaignList: React.FC = () => {
   );
 };
 
-export default CampaignList;
+export default CampaignList; 

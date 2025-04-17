@@ -3,30 +3,31 @@ import { useParams, useNavigate } from 'react-router-dom';
 import CampaignForm from '../components/CampaignForm';
 import { getCampaign, updateCampaign } from '../api';
 
-interface Campaign {
-  id: string;
-  name: string;
-  description: string;
-  subject: string;
-  content: string;
-  status: string;
-  leads: string[];
-  accountIDs: string[];
-}
-
-
-const CampaignEdit: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+const CampaignEdit = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [campaign, setCampaign] = useState<Campaign | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [campaign, setCampaign] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCampaign = async () => {
+      if (!id) {
+        setError('Campaign ID is missing');
+        setLoading(false);
+        return;
+      }
+
       try {
         const data = await getCampaign(id);
-        setCampaign(data);
+        setCampaign({
+          _id: data.id || '',
+          name: data.name,
+          description: data.description,
+          status: data.status,
+          leads: data.leads || [],
+          accountIDs: data.accountIDs || []
+        });
       } catch (err) {
         setError('Failed to load campaign. Please try again.');
         console.error(err);
@@ -38,9 +39,22 @@ const CampaignEdit: React.FC = () => {
     fetchCampaign();
   }, [id]);
 
-  const handleSubmit = async (formData: Campaign) => {
+  const handleSubmit = async (formData) => {
+    if (!id || !campaign) {
+      setError('Campaign data is missing');
+      return;
+    }
+
     try {
-      await updateCampaign(id, formData);
+      const apiData = {
+        id: campaign._id,
+        name: formData.name,
+        description: formData.description,
+        status: formData.status,
+        leads: formData.leads,
+        accountIDs: formData.accountIDs
+      };
+      await updateCampaign(id, apiData);
       navigate('/');
     } catch (err) {
       setError('Failed to update campaign. Please try again.');
@@ -97,4 +111,4 @@ const CampaignEdit: React.FC = () => {
   );
 };
 
-export default CampaignEdit;
+export default CampaignEdit; 

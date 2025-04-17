@@ -1,7 +1,7 @@
 import React from 'react';
 import ProfileSearch from '../components/ProfileSearch';
 
-const ProfilesPage: React.FC = () => {
+const ProfilesPage = () => {
   return (
     <div className="profiles-page">
       <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
@@ -25,4 +25,4 @@ const ProfilesPage: React.FC = () => {
   );
 };
 
-export default ProfilesPage;
+export default ProfilesPage; 

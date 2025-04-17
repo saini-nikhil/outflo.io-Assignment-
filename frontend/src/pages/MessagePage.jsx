@@ -1,19 +1,10 @@
-// src/pages/MessagePage.tsx
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import MessageGenerator from '../components/MessageGenerator';
 
-interface ProfileData {
-  // Define the structure of profile data here based on what data you expect
-  name?: string;
-  headline?: string;
-  location?: string;
-  // Add other fields as necessary
-}
-
-const MessagePage: React.FC = () => {
+const MessagePage = () => {
   const location = useLocation();
-  const profileData: ProfileData | null = location.state || null;
+  const profileData = location.state || null;
 
   return (
     <div className="space-y-6">
@@ -27,6 +18,6 @@ const MessagePage: React.FC = () => {
       <MessageGenerator initialData={profileData} />
     </div>
   );
-}
+};
 
 export default MessagePage;

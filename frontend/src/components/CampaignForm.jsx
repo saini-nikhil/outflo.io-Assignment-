@@ -1,19 +1,6 @@
-import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 
-interface CampaignFormProps {
-  campaign?: {
-    _id: string;
-    name: string;
-    description: string;
-    status: 'ACTIVE' | 'INACTIVE';
-    leads: string[];
-    accountIDs: string[];
-  };
-  onSubmit: (campaignData: { name: string; description: string; status: string; leads: string[]; accountIDs: string[] }) => void;
-  isEditing?: boolean;
-}
-
-const CampaignForm: React.FC<CampaignFormProps> = ({ campaign, onSubmit, isEditing = false }) => {
+const CampaignForm = ({ campaign, onSubmit, isEditing = false }) => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -22,7 +9,7 @@ const CampaignForm: React.FC<CampaignFormProps> = ({ campaign, onSubmit, isEditi
     accountIDs: ''
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (campaign) {
@@ -36,7 +23,7 @@ const CampaignForm: React.FC<CampaignFormProps> = ({ campaign, onSubmit, isEditi
     }
   }, [campaign]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -44,7 +31,7 @@ const CampaignForm: React.FC<CampaignFormProps> = ({ campaign, onSubmit, isEditi
     });
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -166,8 +153,7 @@ const CampaignForm: React.FC<CampaignFormProps> = ({ campaign, onSubmit, isEditi
             inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm
             text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none
             focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors
-            ${loading ? 'opacity-75 cursor-not-allowed' : ''}
-          `}
+            ${loading ? 'opacity-75 cursor-not-allowed' : ''}`}
         >
           {loading ? (
             <>

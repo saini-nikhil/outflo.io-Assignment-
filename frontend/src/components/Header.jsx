@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-const Header: React.FC = () => {
+const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
-  const isActivePath = (path: string) => {
+  const isActivePath = (path) => {
     return location.pathname === path;
   };
 
@@ -57,7 +57,7 @@ const Header: React.FC = () => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
               aria-controls="mobile-menu"
-              aria-expanded="false"
+              aria-expanded={isMobileMenuOpen}
             >
               <span className="sr-only">
                 {isMobileMenuOpen ? 'Close main menu' : 'Open main menu'}
@@ -126,4 +126,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default Header; 

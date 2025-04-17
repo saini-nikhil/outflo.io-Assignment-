@@ -1,19 +1,8 @@
 import React, { useState } from 'react';
-import { generateMessage, MessageGeneratorData } from '../api';
+import { generateMessage } from '../api';
 
-interface ProfileData {
-  name?: string;
-  headline?: string;
-  location?: string;
-  company?: string;
-}
-
-interface Props {
-  initialData: ProfileData | null;
-}
-
-const MessageGenerator: React.FC<Props> = ({ initialData }) => {
-  const [formData, setFormData] = useState<MessageGeneratorData>({
+const MessageGenerator = ({ initialData }) => {
+  const [formData, setFormData] = useState({
     name: initialData?.name || '',
     job_title: initialData?.headline || '',
     company: initialData?.company || '',
@@ -25,11 +14,11 @@ const MessageGenerator: React.FC<Props> = ({ initialData }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.job_title || !formData.company) {
       setError('Please fill in all required fields: Name, Job Title, and Company');
@@ -209,4 +198,4 @@ const MessageGenerator: React.FC<Props> = ({ initialData }) => {
   );
 };
 
-export default MessageGenerator;
+export default MessageGenerator; 

@@ -1,7 +1,7 @@
 import React from 'react';
 import CampaignList from '../components/CampaignList';
 
-const Dashboard: React.FC = () => {
+const Dashboard = () => {
   return (
     <div className="space-y-6">
       <div className="bg-white shadow-sm rounded-lg px-6 py-4">
@@ -15,4 +15,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default Dashboard; 

@@ -3,31 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import CampaignForm from '../components/CampaignForm';
 import { createCampaign } from '../api';
 
-interface FormData {
-  name: string;
-  description: string;
-  subject: string;
-  content: string;
-  status: string; // Add status
-  leads: string[]; // Add leads (array of strings)
-  accountIDs: string[]; // Add accountIDs (array of strings)
-}
-
-
-
-const CampaignCreate: React.FC = () => {
-  const [error, setError] = useState<string | null>(null);
+const CampaignCreate = () => {
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleSubmit = async (formData: FormData) => {
+  const handleSubmit = async (formData) => {
     try {
-      await createCampaign(formData);
+      await createCampaign({
+        name: formData.name,
+        description: formData.description,
+        status: formData.status,
+        leads: formData.leads,
+        accountIDs: formData.accountIDs
+      });
       navigate('/');
     } catch (err) {
       setError('Failed to create campaign. Please try again.');
       console.error(err);
     }
-    
   };
 
   return (
@@ -63,4 +56,4 @@ const CampaignCreate: React.FC = () => {
   );
 };
 
-export default CampaignCreate;
+export default CampaignCreate; 
